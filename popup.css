@@ -1,0 +1,621 @@
+:root {
+  --bg: #ffffff;
+  --bg-soft: #f5f7fa;
+  --border: #e2e6ec;
+  --text: #1b2430;
+  --text-muted: #6b7684;
+  --accent: #1a73e8;
+  --accent-soft: #e8f0fe;
+  --danger: #d93025;
+  --ok: #188038;
+  --radius: 8px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1f2126;
+    --bg-soft: #282b31;
+    --border: #3c4048;
+    --text: #e8eaed;
+    --text-muted: #9aa0a6;
+    --accent: #8ab4f8;
+    --accent-soft: #29384d;
+    --danger: #f28b82;
+    --ok: #81c995;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  width: 400px;
+  max-height: 600px;
+  margin: 0;
+  overflow-y: auto;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Segoe UI", "Yu Gothic UI", "Hiragino Sans", system-ui, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* ---------------- ヘッダー ---------------- */
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-icon {
+  font-size: 18px;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.ghost-btn {
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  max-width: 170px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ghost-btn:hover {
+  background: var(--bg-soft);
+  color: var(--text);
+}
+
+.ghost-btn.is-connected {
+  border-color: transparent;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+/* ---------------- タブ ---------------- */
+
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  position: sticky;
+  top: 45px;
+  z-index: 4;
+}
+
+.tab {
+  flex: 1;
+  padding: 9px 0;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tab.is-active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+.tab-panel {
+  display: none;
+  padding: 14px;
+}
+
+.tab-panel.is-active {
+  display: block;
+}
+
+/* ---------------- フォーム ---------------- */
+
+.field {
+  margin-bottom: 14px;
+  min-width: 0;
+}
+
+.field > label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.req {
+  margin-left: 4px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 9.5px;
+  font-weight: 700;
+  vertical-align: 1px;
+}
+
+.hint-inline {
+  display: block;
+  margin-top: 2px;
+  font-weight: 400;
+  font-size: 10.5px;
+  color: var(--text-muted);
+  opacity: 0.85;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="time"],
+select,
+textarea {
+  width: 100%;
+  padding: 7px 9px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 13px;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 62px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+
+input.is-invalid,
+textarea.is-invalid {
+  border-color: var(--danger);
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+}
+
+.row > .field {
+  flex: 1;
+}
+
+.suffix-input {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.suffix-input span {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* ---------------- チップ ---------------- */
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 8px;
+}
+
+.chip {
+  padding: 4px 9px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-soft);
+  color: var(--text);
+  font-size: 11px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.chip:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.chip-sm {
+  font-size: 10.5px;
+  padding: 3px 8px;
+}
+
+/* ---------------- 服用時刻リスト ---------------- */
+
+.dose-list {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dose-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dose-row input[type="time"] {
+  width: 108px;
+  flex: none;
+}
+
+.dose-row input[type="text"] {
+  flex: 1;
+  min-width: 0;
+}
+
+.icon-btn {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.icon-btn:hover {
+  background: var(--bg-soft);
+  color: var(--danger);
+}
+
+.empty-note {
+  margin: 0 0 8px;
+  padding: 10px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-size: 11.5px;
+  text-align: center;
+}
+
+.add-btn {
+  width: 100%;
+  padding: 6px;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--accent);
+  font-size: 11.5px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.add-btn:hover {
+  background: var(--accent-soft);
+}
+
+/* ---------------- 曜日 ---------------- */
+
+.weekdays {
+  display: flex;
+  gap: 4px;
+}
+
+.weekdays label {
+  flex: 1;
+}
+
+.weekdays input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.weekdays span {
+  display: block;
+  padding: 5px 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  text-align: center;
+  font-size: 11.5px;
+  cursor: pointer;
+}
+
+.weekdays input:checked + span {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* ---------------- 詳細設定 ---------------- */
+
+.advanced {
+  margin-bottom: 12px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+}
+
+.advanced summary {
+  cursor: pointer;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.advanced[open] summary {
+  margin-bottom: 10px;
+}
+
+.advanced .field:last-child {
+  margin-bottom: 0;
+}
+
+.advanced .row:last-child .field {
+  margin-bottom: 0;
+}
+
+/* ---------------- 送信 ---------------- */
+
+.summary {
+  margin: 0 0 8px;
+  padding: 8px 10px;
+  border-radius: var(--radius);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 11.5px;
+}
+
+.summary:empty {
+  display: none;
+}
+
+.primary-btn {
+  width: 100%;
+  padding: 10px;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: #fff;
+  font-size: 13.5px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+@media (prefers-color-scheme: dark) {
+  .primary-btn {
+    color: #1f2126;
+  }
+}
+
+.primary-btn:hover {
+  filter: brightness(1.07);
+}
+
+.primary-btn:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+/* ---------------- 履歴 ---------------- */
+
+.history-hint {
+  margin: 0 0 10px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.history-card {
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+}
+
+.history-card h3 {
+  margin: 0 0 3px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.history-meta {
+  margin: 0 0 6px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.history-notes {
+  margin: 0 0 8px;
+  padding-left: 8px;
+  border-left: 2px solid var(--border);
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.history-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.link-btn {
+  padding: 3px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-family: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.link-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.link-btn.danger:hover {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+/* ---------------- トースト ---------------- */
+
+.toast {
+  position: fixed;
+  left: 14px;
+  right: 14px;
+  bottom: 14px;
+  z-index: 10;
+  padding: 9px 12px;
+  border-radius: var(--radius);
+  background: #202124;
+  color: #fff;
+  font-size: 12px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.28);
+  white-space: pre-wrap;
+}
+
+.toast.is-error {
+  background: var(--danger);
+  color: #fff;
+}
+
+.toast.is-ok {
+  background: var(--ok);
+  color: #fff;
+}
+
+/* ---------------- 出力ボタンと補足 ---------------- */
+
+.secondary-btn {
+  width: 100%;
+  margin-top: 8px;
+  padding: 9px;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--accent);
+  font-size: 12.5px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.secondary-btn:hover {
+  background: var(--accent-soft);
+}
+
+.text-btn {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  padding: 6px;
+  border: 0;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 11.5px;
+  font-family: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.text-btn:hover {
+  color: var(--accent);
+}
+
+.mode-hint {
+  margin: 10px 0 0;
+  padding: 9px 10px;
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+  color: var(--text-muted);
+  font-size: 10.5px;
+  line-height: 1.6;
+}
+
+.mode-hint strong {
+  color: var(--text);
+}
+
+.note-text {
+  margin: 10px 0 0;
+  color: var(--text-muted);
+  font-size: 10.5px;
+  line-height: 1.6;
+}
+
+/* ---------------- プレビュー ---------------- */
+
+.preview-label {
+  margin: 0 0 3px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.preview-label + .preview-text {
+  margin-bottom: 10px;
+}
+
+.preview-text {
+  margin: 0;
+  padding: 8px 9px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 11.5px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+#previewBox .preview-text:last-child {
+  margin-bottom: 0;
+}

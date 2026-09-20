@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>おくすりカレンダー</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="brand">
+        <span class="brand-icon" aria-hidden="true">💊</span>
+        <h1>おくすりカレンダー</h1>
+      </div>
+    </header>
+
+    <nav class="tabs" role="tablist">
+      <button class="tab is-active" role="tab" data-tab="form" type="button">登録</button>
+      <button class="tab" role="tab" data-tab="meds" type="button">お薬リスト</button>
+    </nav>
+
+    <!-- ============================ 登録 ============================ -->
+    <section id="tab-form" class="tab-panel is-active" role="tabpanel">
+      <form id="medForm" novalidate>
+        <div class="field">
+          <label for="medName">薬の名前 <span class="req">必須</span></label>
+          <input id="medName" type="text" placeholder="例）ロキソニン錠60mg" autocomplete="off" />
+        </div>
+
+        <div class="field">
+          <label for="dosage">用法・用量</label>
+          <input id="dosage" type="text" placeholder="例）1回1錠" autocomplete="off" />
+        </div>
+
+        <div class="field">
+          <label>服用タイミング <span class="req">必須</span></label>
+          <div class="chips" id="presetChips">
+            <button type="button" class="chip" data-label="起床時" data-time="07:00">起床時 7:00</button>
+            <button type="button" class="chip" data-label="朝食後" data-time="08:00">朝食後 8:00</button>
+            <button type="button" class="chip" data-label="昼食後" data-time="12:30">昼食後 12:30</button>
+            <button type="button" class="chip" data-label="夕食後" data-time="19:00">夕食後 19:00</button>
+            <button type="button" class="chip" data-label="就寝前" data-time="22:00">就寝前 22:00</button>
+          </div>
+          <ul id="doseList" class="dose-list"></ul>
+          <button type="button" id="addDoseBtn" class="add-btn">＋ 時刻を追加</button>
+        </div>
+
+        <div class="field">
+          <label for="notes">
+            注意事項
+            <span class="hint-inline">予定の「説明（詳細）」欄に入ります</span>
+          </label>
+          <div class="chips" id="noteChips">
+            <button type="button" class="chip chip-sm" data-note="食後30分以内に服用">食後30分以内</button>
+            <button type="button" class="chip chip-sm" data-note="コップ1杯の水またはぬるま湯で服用">水で服用</button>
+            <button type="button" class="chip chip-sm" data-note="グレープフルーツジュースと一緒に飲まないこと">グレープフルーツジュース不可</button>
+            <button type="button" class="chip chip-sm" data-note="服用後に眠気が出ることがあるため運転注意">眠気注意</button>
+            <button type="button" class="chip chip-sm" data-note="アルコールと併用しないこと">飲酒不可</button>
+            <button type="button" class="chip chip-sm" data-note="症状が改善しても自己判断で中止しないこと">自己中断しない</button>
+          </div>
+          <textarea
+            id="notes"
+            rows="4"
+            placeholder="例）食後30分以内に服用。&#10;グレープフルーツジュースと一緒に飲まないこと。&#10;副作用（発疹・胃痛）が出たら服用を中止し医師に相談。"
+          ></textarea>
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="startDate">開始日</label>
+            <input id="startDate" type="date" />
+          </div>
+          <div class="field">
+            <label for="frequency">くり返し</label>
+            <select id="frequency">
+              <option value="daily" selected>毎日</option>
+              <option value="everyOtherDay">1日おき</option>
+              <option value="weekly">毎週（曜日指定）</option>
+              <option value="once">1回だけ</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field" id="weekdayField" hidden>
+          <label>曜日</label>
+          <div class="weekdays" id="weekdays">
+            <label><input type="checkbox" value="0" /><span>日</span></label>
+            <label><input type="checkbox" value="1" /><span>月</span></label>
+            <label><input type="checkbox" value="2" /><span>火</span></label>
+            <label><input type="checkbox" value="3" /><span>水</span></label>
+            <label><input type="checkbox" value="4" /><span>木</span></label>
+            <label><input type="checkbox" value="5" /><span>金</span></label>
+            <label><input type="checkbox" value="6" /><span>土</span></label>
+          </div>
+        </div>
+
+        <div class="row" id="periodRow">
+          <div class="field">
+            <label for="endMode">服用期間</label>
+            <select id="endMode">
+              <option value="count" selected>日数で指定</option>
+              <option value="until">終了日で指定</option>
+              <option value="forever">期限なし</option>
+            </select>
+          </div>
+          <div class="field" id="daysField">
+            <label for="days">日数</label>
+            <div class="suffix-input">
+              <input id="days" type="number" min="1" max="730" value="7" />
+              <span>日分</span>
+            </div>
+          </div>
+          <div class="field" id="endDateField" hidden>
+            <label for="endDate">終了日</label>
+            <input id="endDate" type="date" />
+          </div>
+        </div>
+
+        <details class="advanced">
+          <summary>詳細設定</summary>
+          <div class="row">
+            <div class="field">
+              <label for="reminderMin">通知</label>
+              <select id="reminderMin">
+                <option value="0" selected>時刻ちょうど</option>
+                <option value="5">5分前</option>
+                <option value="10">10分前</option>
+                <option value="15">15分前</option>
+                <option value="30">30分前</option>
+                <option value="-1">通知なし</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="durationMin">所要時間</label>
+              <div class="suffix-input">
+                <input id="durationMin" type="number" min="5" max="120" step="5" value="10" />
+                <span>分</span>
+              </div>
+            </div>
+          </div>
+          <p class="note-text">
+            通知の指定が反映されるのは ICSファイル で取り込んだときだけです。カレンダー画面から保存する場合は、
+            そのカレンダーの既定の通知が付きます（保存画面で変更できます）。
+          </p>
+        </details>
+
+        <details class="advanced" id="previewBox">
+          <summary>登録内容のプレビュー</summary>
+          <p class="preview-label">タイトル</p>
+          <pre class="preview-text" id="previewTitle"></pre>
+          <p class="preview-label">説明（詳細）欄</p>
+          <pre class="preview-text" id="previewDesc"></pre>
+        </details>
+
+        <p id="summaryLine" class="summary"></p>
+
+        <button type="submit" id="openBtn" class="primary-btn">カレンダーで開く</button>
+        <button type="button" id="icsBtn" class="secondary-btn">ICSファイルを書き出す</button>
+        <p class="mode-hint">
+          <strong>カレンダーで開く</strong>：Googleカレンダーの予定作成画面が入力済みで開きます。内容を確かめて「保存」を押してください（服用タイミングごとに1タブ）。<br />
+          <strong>ICSファイル</strong>：書き出したファイルを Googleカレンダー →設定→インポート で選ぶと、すべての予定をまとめて取り込めます。
+        </p>
+
+        <button type="button" id="saveMedBtn" class="text-btn">この内容をお薬リストに保存</button>
+      </form>
+    </section>
+
+    <!-- ========================== お薬リスト ========================== -->
+    <section id="tab-meds" class="tab-panel" role="tabpanel">
+      <p class="history-hint">よく使う薬の設定を保存しておくと、次回はワンクリックで呼び出せます。</p>
+      <div id="medList" class="history-list"></div>
+    </section>
+
+    <div id="toast" class="toast" hidden></div>
+
+    <script src="calendar-utils.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>
